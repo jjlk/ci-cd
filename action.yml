@@ -1,10 +1,14 @@
 name: 'Setup Python environment'
 description: 'Prepare Python environment for testing'
 inputs:
+  install_extra_package:
+    description: 'Install extra packages'
+    required: false
+    default: false
   extra_package:
     description: 'Additional packages to install'
     required: false
-    default: ''
+    default: 'pytest pytest-cov'
 runs:
   using: "composite"
   steps:
@@ -18,7 +22,7 @@ runs:
       run: pip install .
       shell: bash
     - name: install extra-packages
-      if: '${{ inputs.extra_package }} != "" '
+      if: "${{ inputs.install_extra_package }} == true "
       run: pip install ${{ inputs.extra_package }}
       shell: bash
   
