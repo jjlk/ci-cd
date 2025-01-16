@@ -1,0 +1,28 @@
+name: 'Setup Python environment'
+description: 'Prepare Python environment for testing'
+inputs:
+  install_extra_package:
+    description: 'Install extra packages'
+    required: false
+    default: false
+  extra_package:
+    description: 'Additional packages to install'
+    required: false
+    default: 'pytest pytest-cov'
+runs:
+  using: "composite"
+  steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: setup python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+    - name: install package
+      run: pip install .
+      shell: bash
+    - name: install extra-packages
+      if: "${{ inputs.install_extra_package }} == true "
+      run: pip install ${{ inputs.extra_package }}
+      shell: bash
+  
